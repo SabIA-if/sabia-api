@@ -5,8 +5,7 @@ import java.util.UUID;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Column;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,8 +19,7 @@ public class Quiz {
     private String quizJson;
     private int currentQuestion;
     private int score;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @Column(name = "user_id")
     private UUID userId;
     private LocalDateTime createdAt;
     private boolean isFinished;

@@ -1,5 +1,6 @@
 package edu.sabIA.controller;
 
+import edu.sabIA.domain.dto.QuizRequest;
 import edu.sabIA.service.GeminiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,8 @@ public class GeminiController {
     }
     
     @PostMapping("/generate")
-    public ResponseEntity<String> generateContent(@RequestBody String prompt) {
+    public ResponseEntity<String> generateContent(@RequestBody QuizRequest request) {
+        String prompt = "Gere um quiz sobre o tema " + request.getTheme() + " com " + request.getNumberOfQuestions() + " perguntas.";
         try {
             String response = geminiService.generateContent(prompt);
             return ResponseEntity.ok(response);

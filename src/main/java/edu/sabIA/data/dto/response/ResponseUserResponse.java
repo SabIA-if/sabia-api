@@ -1,4 +1,4 @@
 package edu.sabIA.data.dto.response;
 
-public record ResponseUserResponse() {
+public record ResponseUserResponse(String name, String email) {
 }

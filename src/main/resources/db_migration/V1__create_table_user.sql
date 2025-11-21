@@ -3,5 +3,5 @@ create table if not exists users(
     username varchar(255) not null,
     name varchar(255),
     email varchar(255) not null,
-    passwordHash varchar(255) not null,
+    passwordHash varchar(255) not null
 )

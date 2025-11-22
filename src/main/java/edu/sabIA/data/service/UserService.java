@@ -1,17 +1,19 @@
 package edu.sabIA.data.service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import edu.sabIA.data.dto.request.CreateUserRequest;
 import edu.sabIA.data.dto.request.GetUserRequest;
+import edu.sabIA.data.dto.request.LoginRequest;
 import edu.sabIA.data.dto.request.UpdateUserRequest;
 import edu.sabIA.data.dto.response.CreateUserResponse;
 import edu.sabIA.data.dto.response.GetUserResponse;
 import edu.sabIA.domain.models.User;
 import edu.sabIA.infra.repository.UserRepository;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -33,6 +35,22 @@ public class UserService {
         repository.save(newUser);
 
         return new CreateUserResponse(newUser.getEmail(), newUser.getUsername());
+    }
+
+    public String loginUser(LoginRequest request) {
+        Optional<User> consult = repository.findByUsername(request.username());
+        if (consult.isEmpty()) {
+            throw new RuntimeException("Não exiiste usuário com esse username");
+        }
+
+        User entity = consult.get();
+
+        if (!entity.getPasswordHash().equals(request.password())) {
+            throw new RuntimeException("Senha incorreta");
+        }
+
+        return "Logado com sucesso";
+
     }
 
     public GetUserResponse getUser(GetUserRequest request) {

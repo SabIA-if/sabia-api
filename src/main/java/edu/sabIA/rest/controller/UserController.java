@@ -1,16 +1,25 @@
 package edu.sabIA.rest.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import edu.sabIA.data.dto.request.CreateUserRequest;
 import edu.sabIA.data.dto.request.GetUserRequest;
+import edu.sabIA.data.dto.request.LoginRequest;
 import edu.sabIA.data.dto.request.UpdateUserRequest;
 import edu.sabIA.data.dto.response.CreateUserResponse;
 import edu.sabIA.data.dto.response.GetUserResponse;
 import edu.sabIA.data.service.UserService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("users")
@@ -27,6 +36,17 @@ public class UserController {
         CreateUserResponse response = service.createUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        try{
+            String response = service.loginUser(request);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }    
+    }
+    
 
     @GetMapping("/{id}")
     public ResponseEntity<GetUserResponse> getUser(@PathVariable String id) {
@@ -67,7 +87,12 @@ public class UserController {
             @RequestBody UpdateUserRequest request
     ) {
         boolean updated = service.updateUser(
-                new UpdateUserRequest(id, request.name(), request.email(), request.password())
+            new UpdateUserRequest(
+                id, 
+                request.name(), 
+                request.email(), 
+                request.password()
+            )
         );
 
         if (!updated) {

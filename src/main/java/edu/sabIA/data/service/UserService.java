@@ -37,20 +37,16 @@ public class UserService {
         return new CreateUserResponse(newUser.getEmail(), newUser.getUsername());
     }
 
-    public String loginUser(LoginRequest request) {
-        Optional<User> consult = repository.findByUsername(request.username());
-        if (consult.isEmpty()) {
-            throw new RuntimeException("Não exiiste usuário com esse username");
-        }
+    public User loginUser(LoginRequest request) {
 
-        User entity = consult.get();
+        User entity = repository.findByUsername(request.username())
+            .orElseThrow(() -> new RuntimeException("Usuário não existe"));
 
         if (!entity.getPasswordHash().equals(request.password())) {
             throw new RuntimeException("Senha incorreta");
         }
 
-        return "Logado com sucesso";
-
+        return entity; 
     }
 
     public GetUserResponse getUser(GetUserRequest request) {

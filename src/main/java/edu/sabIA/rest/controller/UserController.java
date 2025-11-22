@@ -20,6 +20,8 @@ import edu.sabIA.data.dto.request.UpdateUserRequest;
 import edu.sabIA.data.dto.response.CreateUserResponse;
 import edu.sabIA.data.dto.response.GetUserResponse;
 import edu.sabIA.data.service.UserService;
+import edu.sabIA.domain.models.User;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("users")
@@ -38,21 +40,21 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        try{
-            String response = service.loginUser(request);
-            return ResponseEntity.ok(response);
+    public ResponseEntity<String> login(@RequestBody LoginRequest request, HttpSession session) {
+        try {
+            User user = service.loginUser(request); 
+            session.setAttribute("usuarioLogado", user.getId());
+            return ResponseEntity.ok("Logado com sucesso");
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }    
+        }
     }
-    
 
     @GetMapping("/{id}")
     public ResponseEntity<GetUserResponse> getUser(@PathVariable String id) {
         GetUserResponse response = service.getUser(new GetUserRequest(id));
 
-        if (response == null) { // service retorna null se não encontrar
+        if (response == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 

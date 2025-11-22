@@ -1,17 +1,16 @@
-package edu.sabIA.controller;
+package edu.sabIA.rest.controller;
 
-import edu.sabIA.domain.dto.request.CreateUserRequest;
-import edu.sabIA.domain.dto.request.GetUserRequest;
-import edu.sabIA.domain.dto.request.UpdateUserRequest;
-import edu.sabIA.domain.dto.response.CreateUserResponse;
-import edu.sabIA.domain.dto.response.GetUserResponse;
-import edu.sabIA.service.UserService;
+import edu.sabIA.data.dto.request.CreateUserRequest;
+import edu.sabIA.data.dto.request.GetUserRequest;
+import edu.sabIA.data.dto.request.UpdateUserRequest;
+import edu.sabIA.data.dto.response.CreateUserResponse;
+import edu.sabIA.data.dto.response.GetUserResponse;
+import edu.sabIA.data.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("users")

@@ -1,4 +1,4 @@
-package edu.sabIA.domain.dto.response;
+package edu.sabIA.data.dto.response;
 
 public record UpdateUserResponse() {
 }

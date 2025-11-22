@@ -1,4 +1,4 @@
-package edu.sabIA.domain.dto.request;
+package edu.sabIA.data.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 

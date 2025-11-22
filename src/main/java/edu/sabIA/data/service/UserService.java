@@ -1,14 +1,12 @@
-package edu.sabIA.service;
+package edu.sabIA.data.service;
 
-import edu.sabIA.domain.dto.request.CreateUserRequest;
-import edu.sabIA.domain.dto.request.GetUserRequest;
-import edu.sabIA.domain.dto.request.UpdateUserRequest;
-import edu.sabIA.domain.dto.response.CreateUserResponse;
-import edu.sabIA.domain.dto.response.GetUserResponse;
+import edu.sabIA.data.dto.request.CreateUserRequest;
+import edu.sabIA.data.dto.request.GetUserRequest;
+import edu.sabIA.data.dto.request.UpdateUserRequest;
+import edu.sabIA.data.dto.response.CreateUserResponse;
+import edu.sabIA.data.dto.response.GetUserResponse;
 import edu.sabIA.domain.models.User;
 import edu.sabIA.infra.repository.UserRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +17,7 @@ import java.util.UUID;
 public class UserService {
 
     private final UserRepository repository;
+
     public UserService(UserRepository repository) {
         this.repository = repository;
     }
@@ -33,62 +32,50 @@ public class UserService {
 
         repository.save(newUser);
 
-        CreateUserResponse response = new CreateUserResponse(newUser.getEmail(), newUser.getUsername());
-
-        return response;
+        return new CreateUserResponse(newUser.getEmail(), newUser.getUsername());
     }
 
-    public ResponseEntity<GetUserResponse> getUser(GetUserRequest request){
+    public GetUserResponse getUser(GetUserRequest request) {
         Optional<User> consult = repository.findById(UUID.fromString(request.id()));
-        if(consult.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
+        if (consult.isEmpty()) {
+            return null;
         }
 
         User entity = consult.get();
-        GetUserResponse response = new GetUserResponse(
+
+        return new GetUserResponse(
                 entity.getName(),
                 entity.getUsername(),
                 entity.getEmail()
         );
-
-        return ResponseEntity.status(HttpStatus.FOUND).body(response);
     }
 
-    public ResponseEntity<List<GetUserResponse>> listUsers() {
+    public List<GetUserResponse> listUsers() {
+        List<User> users = repository.findAll();
 
-        List<User> consults = repository.findAll();
-
-        if (consults.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        List<GetUserResponse> responses = consults.stream()
+        return users.stream()
                 .map(user -> new GetUserResponse(
                         user.getName(),
                         user.getUsername(),
                         user.getEmail()
                 ))
                 .toList();
-
-        return ResponseEntity.ok(responses);
     }
 
-    public ResponseEntity<String> deleteUser(GetUserRequest request){
+    public boolean deleteUser(GetUserRequest request) {
         Optional<User> consult = repository.findById(UUID.fromString(request.id()));
 
-        if(consult.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+        if (consult.isEmpty()) return false;
+
         repository.deleteById(UUID.fromString(request.id()));
-        return ResponseEntity.ok("Usuário deletado com sucesso");
+        return true;
     }
 
-    public ResponseEntity<String> updateUser(UpdateUserRequest request) {
-
+    public boolean updateUser(UpdateUserRequest request) {
         Optional<User> consult = repository.findById(UUID.fromString(request.id()));
-        if (consult.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        }
+
+        if (consult.isEmpty()) return false;
 
         User entity = consult.get();
         entity.setName(request.name());
@@ -96,9 +83,6 @@ public class UserService {
         entity.setPasswordHash(request.password());
 
         repository.save(entity);
-
-        return ResponseEntity.ok("Atualização feita com sucesso");
+        return true;
     }
-
 }
-

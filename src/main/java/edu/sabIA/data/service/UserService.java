@@ -34,7 +34,7 @@ public class UserService {
 
         repository.save(newUser);
 
-        return new CreateUserResponse(newUser.getEmail(), newUser.getUsername());
+        return new CreateUserResponse(newUser.getId(), newUser.getEmail(), newUser.getUsername());
     }
 
     public User loginUser(LoginRequest request) {
@@ -86,8 +86,8 @@ public class UserService {
         return true;
     }
 
-    public boolean updateUser(UpdateUserRequest request) {
-        Optional<User> consult = repository.findById(UUID.fromString(request.id()));
+    public boolean updateUser(String id, UpdateUserRequest request) {
+        Optional<User> consult = repository.findById(UUID.fromString(id));
 
         if (consult.isEmpty()) return false;
 

@@ -40,11 +40,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request, HttpSession session) {
+    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpSession session) {
         try {
             User user = service.loginUser(request); 
             session.setAttribute("usuarioLogado", user.getId());
-            return ResponseEntity.ok("Logado com sucesso");
+            return ResponseEntity.ok(user);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
@@ -88,14 +88,7 @@ public class UserController {
             @PathVariable String id,
             @RequestBody UpdateUserRequest request
     ) {
-        boolean updated = service.updateUser(
-            new UpdateUserRequest(
-                id, 
-                request.name(), 
-                request.email(), 
-                request.password()
-            )
-        );
+        boolean updated = service.updateUser(id, request);
 
         if (!updated) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");

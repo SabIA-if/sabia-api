@@ -1,4 +1,4 @@
-package edu.sabIA.domain.dto;
+package edu.sabIA.data.dto;
 
 import lombok.Data;
 

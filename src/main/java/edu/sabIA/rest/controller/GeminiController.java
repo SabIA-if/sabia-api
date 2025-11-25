@@ -1,7 +1,7 @@
-package edu.sabIA.controller;
+package edu.sabIA.rest.controller;
 
-import edu.sabIA.domain.dto.QuizRequest;
-import edu.sabIA.service.GeminiService;
+import edu.sabIA.data.dto.QuizRequest;
+import edu.sabIA.data.service.GeminiService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

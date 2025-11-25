@@ -1,4 +1,4 @@
-package edu.sabIA.service;
+package edu.sabIA.data.service;
 
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;

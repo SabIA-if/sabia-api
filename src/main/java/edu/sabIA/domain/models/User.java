@@ -21,6 +21,7 @@ public class User {
     private String passwordHash;
 
     public User(){}
+    
     public User(String username, String name, String email, String passwordHash) {
         this.id = UUID.randomUUID();
         this.username = username;

@@ -7,22 +7,29 @@ import com.google.genai.types.Schema;
 import com.google.genai.types.Type;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import edu.sabIA.data.dto.request.CreateQuizRequest;
+import edu.sabIA.domain.models.Quiz;
+import edu.sabIA.infra.repository.QuizRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
-@Service
-public class GeminiService {
+@Service    
+public class QuizService {
     
     private final Client geminiClient;
-    
+    private final QuizRepository quizRepository;
+
+    public QuizService(Client geminiClient, QuizRepository quizRepository) {
+        this.geminiClient = geminiClient;
+        this.quizRepository = quizRepository;
+    }
+
     @Value("${gemini.api.model}")
     private String model;
-    
-    public GeminiService(Client geminiClient) {
-        this.geminiClient = geminiClient;
-    }
 
     // Schema da pergunta individual usando Map
     private Schema createQuestionSchema() {
@@ -90,5 +97,17 @@ public class GeminiService {
         );
         
         return response.text();
+    }
+
+    public Quiz createQuiz(CreateQuizRequest request) {
+        String prompt = "Gere um quiz sobre o tema " + request.theme() + " com " + request.numberOfQuestions() + " perguntas.";
+        String quizJson = generateContent(prompt);
+        UUID userId = UUID.fromString(request.userId()); //TODO: implementar validação de usuário antes de salvar
+        return new Quiz(request.theme(), request.numberOfQuestions(), quizJson, 0, userId);
+    }
+
+    @Transactional
+    public void saveQuiz(Quiz quiz) {
+        quizRepository.save(quiz);
     }
 }

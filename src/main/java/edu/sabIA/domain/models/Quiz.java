@@ -16,6 +16,7 @@ public class Quiz {
     private String theme;
     private String[] topics;
     private int numberOfQuestions;
+    @Column(columnDefinition = "TEXT")
     private String quizJson;
     private int currentQuestion;
     private int score;
@@ -23,6 +24,8 @@ public class Quiz {
     private UUID userId;
     private LocalDateTime createdAt;
     private boolean isFinished;
+
+    public Quiz(){}
 
     public Quiz(String theme, int numberOfQuestions, String quizJson, int score, UUID userId) {
         this.id = UUID.randomUUID();

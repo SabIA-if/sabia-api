@@ -1,21 +1,30 @@
 package edu.sabIA.data.service;
 
+import java.util.ArrayList;
+
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
 import com.google.genai.types.Type;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import edu.sabIA.data.dto.request.CreateQuizRequest;
 import edu.sabIA.domain.models.Quiz;
 import edu.sabIA.infra.repository.QuizRepository;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
+
+import edu.sabIA.data.dto.response.quiz.QuizBasicInformationResponse;
+import edu.sabIA.data.dto.response.quiz.QuizResponse;
 
 @Service    
 public class QuizService {
@@ -110,4 +119,50 @@ public class QuizService {
     public void saveQuiz(Quiz quiz) {
         quizRepository.save(quiz);
     }
+
+    public List<QuizBasicInformationResponse> listQuizzes(UUID userId){
+        Optional<List<Quiz>> consult = quizRepository.findByUserId(userId);
+        if(consult.isEmpty()){
+            throw new RuntimeException("Quiz not found");
+        } 
+
+        List<QuizBasicInformationResponse> entities = new ArrayList<>();
+        for (Quiz quiz : consult.get()) {
+            QuizBasicInformationResponse response = new QuizBasicInformationResponse(
+                quiz.getId(),
+                quiz.getTheme(),
+                quiz.getTopics(),
+                quiz.getCurrentQuestion(),
+                quiz.getNumberOfQuestions(),
+                quiz.getScore()
+            );
+            entities.add(response);
+        }
+
+        return entities;
+    }
+
+    public QuizResponse getQuiz(UUID id){
+        Optional<Quiz> consult = quizRepository.findById(id);
+        if(consult.isEmpty()){
+            throw new RuntimeException("Quiz not found");
+        } 
+
+        Quiz entity = consult.get();
+
+        QuizResponse response = new QuizResponse(
+            entity.getId(),
+            entity.getTheme(),
+            entity.getTopics(),
+            entity.getNumberOfQuestions(),
+            entity.getQuizJson(),
+            entity.getCurrentQuestion(),
+            entity.getScore(),
+            entity.getUserId(),
+            entity.isFinished()
+        );
+
+        return response;
+    }
+        
 }

@@ -7,9 +7,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.Table;
+import lombok.Setter;
+import lombok.Getter;
 
 @Entity
 @Table(name = "quizzes")
+@Getter
+@Setter
 public class Quiz {
     @Id
     private UUID id;

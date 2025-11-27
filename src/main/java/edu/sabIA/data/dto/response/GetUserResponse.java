@@ -1,4 +1,7 @@
 package edu.sabIA.data.dto.response;
 
-public record GetUserResponse(String name, String username, String email) {
+import java.util.UUID;
+
+public record GetUserResponse(UUID id, String name, String username, String email) {
 }
+

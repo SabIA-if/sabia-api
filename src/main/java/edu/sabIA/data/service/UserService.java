@@ -59,6 +59,7 @@ public class UserService {
         User entity = consult.get();
 
         return new GetUserResponse(
+                entity.getId(),
                 entity.getName(),
                 entity.getUsername(),
                 entity.getEmail()
@@ -70,6 +71,7 @@ public class UserService {
 
         return users.stream()
                 .map(user -> new GetUserResponse(
+                        user.getId(),
                         user.getName(),
                         user.getUsername(),
                         user.getEmail()

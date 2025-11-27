@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import edu.sabIA.data.dto.request.quiz.UpdateQuizProgressRequest;
 import edu.sabIA.data.dto.response.quiz.QuizBasicInformationResponse;
 import edu.sabIA.data.dto.response.quiz.QuizResponse;
 
@@ -149,6 +150,44 @@ public class QuizService {
         } 
 
         Quiz entity = consult.get();
+
+        QuizResponse response = new QuizResponse(
+            entity.getId(),
+            entity.getTheme(),
+            entity.getTopics(),
+            entity.getNumberOfQuestions(),
+            entity.getQuizJson(),
+            entity.getCurrentQuestion(),
+            entity.getScore(),
+            entity.getUserId(),
+            entity.isFinished()
+        );
+
+        return response;
+    }
+
+    public QuizResponse updateQuizProgress(UpdateQuizProgressRequest request){
+        Optional<Quiz> consult = quizRepository.findById(request.id());
+        if(consult.isEmpty()){
+            throw new RuntimeException("O ID do quiz nao está no banco");
+        } 
+        Quiz entity = consult.get();
+
+        if (entity.isFinished()) {
+            throw new RuntimeException("Este quiz já foi finalizado");
+        }
+
+        if(request.hasScored()){
+            entity.setScore(entity.getScore() + 1);
+        }
+
+        entity.setCurrentQuestion(entity.getCurrentQuestion() + 1);
+
+        if(entity.getCurrentQuestion() == entity.getNumberOfQuestions()){
+            entity.setFinished(true);
+        }
+
+        quizRepository.save(entity);
 
         QuizResponse response = new QuizResponse(
             entity.getId(),

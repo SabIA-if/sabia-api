@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.sabIA.data.dto.request.CreateQuizRequest;
 import edu.sabIA.data.dto.request.QuizzesRequest;
+import edu.sabIA.data.dto.request.quiz.UpdateQuizProgressRequest;
 import edu.sabIA.data.dto.response.quiz.QuizBasicInformationResponse;
 import edu.sabIA.data.dto.response.quiz.QuizResponse;
 import edu.sabIA.data.service.QuizService;
@@ -56,12 +57,21 @@ public class QuizController {
     @PostMapping()
     public ResponseEntity<List<QuizBasicInformationResponse>> listQuizzes(@RequestBody QuizzesRequest request) {
         try {
-            System.out.println("Tudo: " + request);
             List<QuizBasicInformationResponse> quizInfo = quizService.listQuizzes(request.userId());
 
             return ResponseEntity.ok(quizInfo);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/update-progress")
+    public ResponseEntity<?> updateQuizProgress(@RequestBody UpdateQuizProgressRequest request) {
+        try {
+            QuizResponse quiz = quizService.updateQuizProgress(request);
+            return ResponseEntity.ok(quiz);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
     

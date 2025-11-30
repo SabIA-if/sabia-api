@@ -1,41 +1,42 @@
 package edu.sabIA.data.service;
 
 import java.util.ArrayList;
-
-import com.google.genai.Client;
-import com.google.genai.types.GenerateContentConfig;
-import com.google.genai.types.GenerateContentResponse;
-import com.google.genai.types.Schema;
-import com.google.genai.types.Type;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import edu.sabIA.data.dto.request.CreateQuizRequest;
-import edu.sabIA.domain.models.Quiz;
-import edu.sabIA.infra.repository.QuizRepository;
-
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.genai.Client;
+import com.google.genai.types.GenerateContentConfig;
+import com.google.genai.types.GenerateContentResponse;
+import com.google.genai.types.Schema;
+import com.google.genai.types.Type;
+
+import edu.sabIA.data.dto.request.CreateQuizRequest;
 import edu.sabIA.data.dto.request.quiz.UpdateQuizProgressRequest;
 import edu.sabIA.data.dto.response.quiz.QuizBasicInformationResponse;
 import edu.sabIA.data.dto.response.quiz.QuizResponse;
+import edu.sabIA.domain.models.Quiz;
+import edu.sabIA.infra.repository.QuizRepository;
+import edu.sabIA.rest.utils.Utils;
 
 @Service    
 public class QuizService {
     
+    private final Utils utils;
     private final Client geminiClient;
     private final QuizRepository quizRepository;
 
-    public QuizService(Client geminiClient, QuizRepository quizRepository) {
+    public QuizService(Client geminiClient, QuizRepository quizRepository, Utils utils) {
         this.geminiClient = geminiClient;
         this.quizRepository = quizRepository;
+        this.utils = utils;
     }
 
     @Value("${gemini.api.model}")
@@ -151,12 +152,14 @@ public class QuizService {
 
         Quiz entity = consult.get();
 
+        JsonNode quizJson = utils.convertStrToJson(entity.getQuizJson());
+
         QuizResponse response = new QuizResponse(
             entity.getId(),
             entity.getTheme(),
             entity.getTopics(),
             entity.getNumberOfQuestions(),
-            entity.getQuizJson(),
+            quizJson,
             entity.getCurrentQuestion(),
             entity.getScore(),
             entity.getUserId(),
@@ -189,12 +192,14 @@ public class QuizService {
 
         quizRepository.save(entity);
 
+        JsonNode quizJson = utils.convertStrToJson(entity.getQuizJson());
+
         QuizResponse response = new QuizResponse(
             entity.getId(),
             entity.getTheme(),
             entity.getTopics(),
             entity.getNumberOfQuestions(),
-            entity.getQuizJson(),
+            quizJson,
             entity.getCurrentQuestion(),
             entity.getScore(),
             entity.getUserId(),

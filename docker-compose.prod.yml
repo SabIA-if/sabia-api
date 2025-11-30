@@ -2,13 +2,9 @@
 services:
 
   app:
-    build: # TODO: Modificar para buscar do repositório do dockerhub
-      context: .
-      dockerfile: Dockerfile
+    image: ${DOCKER_REPOSITORY}/sabia-api:latest
     container_name: sabia-api
     restart: always
-    # env_file:
-    #   - .env # Necessário ter um arquivo .env com as variáveis de ambiente definidas no .env.sample
     environment:
       POSTGRES_HOST: database
       POSTGRES_USER: ${POSTGRES_USER}

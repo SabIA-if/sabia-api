@@ -1,3 +1,5 @@
+# Usar para desenvolvimento da API. Sobe apenas o banco de dados.
+
 services:
   database:
     image: postgres:17

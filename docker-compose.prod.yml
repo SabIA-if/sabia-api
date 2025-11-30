@@ -1,0 +1,46 @@
+# Usar em prod ou para desenvolvimento do APP.
+services:
+
+  app:
+    build: # TODO: Modificar para buscar do repositório do dockerhub
+      context: .
+      dockerfile: Dockerfile
+    container_name: sabia-api
+    restart: always
+    # env_file:
+    #   - .env # Necessário ter um arquivo .env com as variáveis de ambiente definidas no .env.sample
+    environment:
+      POSTGRES_HOST: database
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_API_MODEL: ${GEMINI_API_MODEL}
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    networks:
+      - sabia_network
+
+  database:
+    image: postgres:17
+    restart: always
+    container_name: database
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - sabia_network
+
+volumes:
+  postgres_data:
+
+networks:
+  sabia_network:
+    driver: bridge

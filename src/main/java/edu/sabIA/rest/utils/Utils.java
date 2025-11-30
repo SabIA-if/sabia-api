@@ -1,8 +1,11 @@
 package edu.sabIA.rest.utils;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Component
 public class Utils {
 
     private final ObjectMapper mapper = new ObjectMapper();

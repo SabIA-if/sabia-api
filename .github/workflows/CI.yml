@@ -3,7 +3,7 @@ name: CI - Build and Push Docker Image
 on:
   push:
     branches:
-      - Feat/CI # TODO: Modificar para a branch correta depois dos testes
+      - main
 
 jobs:
   build-and-push-docker-image:

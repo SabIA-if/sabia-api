@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.google.genai.Client;
 import com.google.genai.types.GenerateContentConfig;
 import com.google.genai.types.GenerateContentResponse;
@@ -152,7 +151,7 @@ public class QuizService {
 
         Quiz entity = consult.get();
 
-        JsonNode quizJson = utils.convertStrToJson(entity.getQuizJson());
+        Object quizJson = utils.convertStrToJsonObject(entity.getQuizJson());
 
         QuizResponse response = new QuizResponse(
             entity.getId(),
@@ -192,7 +191,7 @@ public class QuizService {
 
         quizRepository.save(entity);
 
-        JsonNode quizJson = utils.convertStrToJson(entity.getQuizJson());
+        Object quizJson = utils.convertStrToJsonObject(entity.getQuizJson());
 
         QuizResponse response = new QuizResponse(
             entity.getId(),

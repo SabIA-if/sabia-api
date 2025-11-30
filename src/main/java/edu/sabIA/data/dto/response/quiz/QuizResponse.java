@@ -7,7 +7,7 @@ public record QuizResponse(
     String theme,
     String[] topics,
     int numberOfQuestions, 
-    String quizJson, 
+    Object quizJson, 
     int currentQuestion, 
     int score, 
     UUID userId, 

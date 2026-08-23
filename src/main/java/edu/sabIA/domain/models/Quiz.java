@@ -3,12 +3,12 @@ package edu.sabIA.domain.models;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Column;
 import jakarta.persistence.Table;
-import lombok.Setter;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "quizzes")
@@ -18,43 +18,21 @@ public class Quiz {
     @Id
     private UUID id;
     private String theme;
-    private String[] topics;
-    private int numberOfQuestions;
-    @Column(columnDefinition = "TEXT")
-    private String quizJson;
-    private int currentQuestion;
-    private int score;
-    @Column(name = "user_id")
-    private UUID userId;
+    private int questionsQuantity;
+    private String level;
+    @Column(name = "docent_id")
+    private User docent;
+    @Column(name = "class_id")
+    private UUID classId;
     private LocalDateTime createdAt;
-    private boolean isFinished;
 
-    public Quiz(){}
-
-    public Quiz(String theme, int numberOfQuestions, String quizJson, int score, UUID userId) {
-        this.id = UUID.randomUUID();
-        this.theme = theme;
-        this.numberOfQuestions = numberOfQuestions;
-        this.quizJson = quizJson;
-        this.currentQuestion = 0;
-        this.score = 0;
-        this.userId = userId;
-        this.createdAt = LocalDateTime.now();
-        this.isFinished = false;
+    public Quiz() {
     }
 
-    public Quiz(String theme, int numberOfQuestions, String[] topics, String quizJson, int score, UUID userId) {
+    public Quiz(String theme) {
         this.id = UUID.randomUUID();
         this.theme = theme;
-        this.numberOfQuestions = numberOfQuestions;
-        this.quizJson = quizJson;
-        this.topics = topics;
-        this.currentQuestion = 0;
-        this.score = 0;
-        this.userId = userId;
         this.createdAt = LocalDateTime.now();
-        this.isFinished = false;
     }
-
 
 }

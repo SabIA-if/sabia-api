@@ -22,8 +22,8 @@ public class Quiz {
     private String level;
     @Column(name = "docent_id")
     private User docent;
-    @Column(name = "class_id")
-    private UUID classId;
+    @Column(name = "classroom_id")
+    private UUID classroomId;
     private LocalDateTime createdAt;
 
     public Quiz() {

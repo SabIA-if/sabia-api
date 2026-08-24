@@ -3,6 +3,8 @@ package edu.sabIA.domain.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +19,11 @@ import java.util.UUID;
 public class QuizPontuation {
     @Id
     private UUID id;
-    @Column(name = "quiz_id")
+    @ManyToOne
+    @JoinColumn(name = "quiz_id")
     private Quiz quiz;
-    @Column(name = "student_id")
+    @ManyToOne
+    @JoinColumn(name = "student_id")
     private User student;
     private int pontuation;
     @Column(name = "finalized_at")

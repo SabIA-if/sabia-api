@@ -3,6 +3,8 @@ package edu.sabIA.domain.models;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +20,8 @@ public class Classroom {
     @Id
     private UUID id;
     private String name;
-    @Column(name = "docent_id")
+    @ManyToOne
+    @JoinColumn(name = "docent_id")
     private User docent;
     @Column(name = "students_quantity")
     private int studentsQuantity;
@@ -26,5 +29,13 @@ public class Classroom {
     private LocalDateTime createdAt;
 
     public Classroom() {
+    }
+
+    public Classroom(String name, User docent, int studentsQuantity) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.docent = docent;
+        this.studentsQuantity = studentsQuantity;
+        this.createdAt = LocalDateTime.now();
     }
 }

@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.sabIA.data.dto.request.CreateUserRequest;
-import edu.sabIA.data.dto.request.GetUserRequest;
-import edu.sabIA.data.dto.request.LoginRequest;
-import edu.sabIA.data.dto.request.UpdateUserRequest;
-import edu.sabIA.data.dto.response.CreateUserResponse;
-import edu.sabIA.data.dto.response.GetUserResponse;
+import edu.sabIA.data.contracts.request.CreateUserRequest;
+import edu.sabIA.data.contracts.request.GetUserRequest;
+import edu.sabIA.data.contracts.request.LoginRequest;
+import edu.sabIA.data.contracts.request.UpdateUserRequest;
+import edu.sabIA.data.contracts.response.CreateUserResponse;
+import edu.sabIA.data.contracts.response.GetUserResponse;
 import edu.sabIA.data.service.UserService;
 import edu.sabIA.domain.models.User;
 import jakarta.servlet.http.HttpSession;

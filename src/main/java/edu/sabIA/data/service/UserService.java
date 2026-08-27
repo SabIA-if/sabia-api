@@ -6,12 +6,12 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import edu.sabIA.data.dto.request.CreateUserRequest;
-import edu.sabIA.data.dto.request.GetUserRequest;
-import edu.sabIA.data.dto.request.LoginRequest;
-import edu.sabIA.data.dto.request.UpdateUserRequest;
-import edu.sabIA.data.dto.response.CreateUserResponse;
-import edu.sabIA.data.dto.response.GetUserResponse;
+import edu.sabIA.data.contracts.request.CreateUserRequest;
+import edu.sabIA.data.contracts.request.GetUserRequest;
+import edu.sabIA.data.contracts.request.LoginRequest;
+import edu.sabIA.data.contracts.request.UpdateUserRequest;
+import edu.sabIA.data.contracts.response.CreateUserResponse;
+import edu.sabIA.data.contracts.response.GetUserResponse;
 import edu.sabIA.domain.models.User;
 import edu.sabIA.infra.repository.UserRepository;
 

@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.sabIA.data.dto.request.CreateQuizRequest;
-import edu.sabIA.data.dto.request.QuizzesRequest;
-import edu.sabIA.data.dto.request.quiz.UpdateQuizProgressRequest;
-import edu.sabIA.data.dto.response.quiz.QuizBasicInformationResponse;
-import edu.sabIA.data.dto.response.quiz.QuizResponse;
+import edu.sabIA.data.contracts.request.CreateQuizRequest;
+import edu.sabIA.data.contracts.request.QuizzesRequest;
+import edu.sabIA.data.contracts.request.quiz.UpdateQuizProgressRequest;
+import edu.sabIA.data.contracts.response.quiz.QuizBasicInformationResponse;
+import edu.sabIA.data.contracts.response.quiz.QuizResponse;
 import edu.sabIA.data.service.QuizService;
 import edu.sabIA.domain.models.Quiz;
 

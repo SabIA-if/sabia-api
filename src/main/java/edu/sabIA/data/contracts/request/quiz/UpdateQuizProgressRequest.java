@@ -1,4 +1,4 @@
-package edu.sabIA.data.dto.request.quiz;
+package edu.sabIA.data.contracts.request.quiz;
 
 import java.util.UUID;
 

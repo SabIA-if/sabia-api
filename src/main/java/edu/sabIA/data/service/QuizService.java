@@ -17,10 +17,10 @@ import com.google.genai.types.GenerateContentResponse;
 import com.google.genai.types.Schema;
 import com.google.genai.types.Type;
 
-import edu.sabIA.data.dto.request.CreateQuizRequest;
-import edu.sabIA.data.dto.request.quiz.UpdateQuizProgressRequest;
-import edu.sabIA.data.dto.response.quiz.QuizBasicInformationResponse;
-import edu.sabIA.data.dto.response.quiz.QuizResponse;
+import edu.sabIA.data.contracts.request.CreateQuizRequest;
+import edu.sabIA.data.contracts.request.quiz.UpdateQuizProgressRequest;
+import edu.sabIA.data.contracts.response.quiz.QuizBasicInformationResponse;
+import edu.sabIA.data.contracts.response.quiz.QuizResponse;
 import edu.sabIA.domain.models.Quiz;
 import edu.sabIA.infra.repository.QuizRepository;
 import edu.sabIA.rest.utils.Utils;

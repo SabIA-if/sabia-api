@@ -1,4 +1,4 @@
-package edu.sabIA.data.dto.request;
+package edu.sabIA.data.contracts.request;
 
 public record LoginRequest(String username, String password) {
 }

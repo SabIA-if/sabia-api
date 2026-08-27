@@ -21,7 +21,7 @@ public class ClassroomService {
         this.repository = repository;
     }
 
-    public Classroom createClass(UUID docentId, List<UUID> studentsIds, String name, String level) {
+    public Classroom createClassroom(UUID docentId, List<UUID> studentsIds, String name, String level) {
 
         Optional<User> docent = userRepository.findById(docentId);
         if (docent.isEmpty()) {

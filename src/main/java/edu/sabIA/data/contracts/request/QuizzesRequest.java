@@ -1,4 +1,4 @@
-package edu.sabIA.data.dto.request;
+package edu.sabIA.data.contracts.request;
 
 import java.util.UUID;
 
